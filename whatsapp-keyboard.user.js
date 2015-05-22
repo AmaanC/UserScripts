@@ -7,9 +7,17 @@
 
 var move = function(dir) {
     var current = document.querySelector('.active');
-    var otherParent = current.parentElement[dir == -1 ? 'previousSibling' : 'nextSibling'];
-    if (otherParent) {
-        otherParent.children[0].click();
+    if (current && current.className.indexOf('chat') !== -1) {
+        var parent = current.parentElement;
+        var i = [].slice.apply(parent.parentElement.children).indexOf(parent);
+        var otherParent = parent.parentElement.children[i + dir];
+        if (otherParent) {
+            otherParent.children[0].click();
+        }
+    }
+    else {
+        var parent = document.querySelector('.infinite-list-viewport');
+        parent.children[0].children[0].click();
     }
 };
 
@@ -20,6 +28,15 @@ document.body.addEventListener('keydown', function (e) {
         }
         else if(e.keyCode === 40) {
             move(1);
+        }
+        else if(e.keyCode === 39) {
+            move(2);
+        }
+        else if(e.keyCode === 37) {
+            move(-2);
+        }
+        else if(e.keyCode === 191) {
+            document.querySelector('.input-search').focus();
         }
     }
 }, false);
