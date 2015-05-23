@@ -7,17 +7,20 @@
 
 var move = function(dir) {
     var current = document.querySelector('.active');
+    var target;
     if (current && current.className.indexOf('chat') !== -1) {
         var parent = current.parentElement;
         var i = [].slice.apply(parent.parentElement.children).indexOf(parent);
         var otherParent = parent.parentElement.children[i + dir];
         if (otherParent) {
-            otherParent.children[0].click();
+            target = otherParent.children[0];
+            target.click();
+            // target.scrollIntoView();
         }
     }
     else {
-        var parent = document.querySelector('.infinite-list-viewport');
-        parent.children[0].children[0].click();
+        var target = document.querySelector('.infinite-list-viewport .chat');
+        target.click();
     }
 };
 
