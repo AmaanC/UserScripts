@@ -23,7 +23,7 @@ document.body.addEventListener('keydown', function (e) {
         else if(e.keyCode === 40) {
             down();
         }
-        else if(e.keyCode === 32) {
+        else if(e.keyCode === 13) {
             location.href = 'https://www.duolingo.com/practice';
         }
     }
