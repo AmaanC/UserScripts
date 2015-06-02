@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name          Duolingo
-// @description   Lets you use alt+up or alt+down to scroll down to your next lesson, or up to the top of the page
+// @description   Lets you use alt+up or alt+down to scroll down to your next lesson, or up to the top of the page, and alt+enter to go to practice
 // @include       *://*.duolingo.com/*
 // @version       1.0
 // ==/UserScript==
