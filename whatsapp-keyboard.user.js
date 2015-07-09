@@ -5,13 +5,23 @@
 // @version       1.0
 // ==/UserScript==
 
+var findOther = function(elemList, zIndex) {
+    var other;
+    for (var i = 0; i < elemList.children.length; i++) {
+        if (elemList.children[i].style.zIndex == zIndex) {
+            other = elemList.children[i];
+        }
+    }
+    return other;
+};
+
 var move = function(dir) {
     var current = document.querySelector('.active');
     var target;
     if (current && current.className.indexOf('chat') !== -1) {
         var parent = current.parentElement;
-        var i = [].slice.apply(parent.parentElement.children).indexOf(parent);
-        var otherParent = parent.parentElement.children[i + dir];
+        var i = +parent.style.zIndex;
+        var otherParent = findOther(parent.parentElement, i - dir);
         if (otherParent) {
             target = otherParent.children[0];
             target.click();
