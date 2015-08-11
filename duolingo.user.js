@@ -7,7 +7,8 @@
 
 
 var down = function() {
-    [].pop.apply(document.querySelectorAll('.gold')).scrollIntoView();
+    var ls = document.querySelectorAll('.gold');
+    ls[ls.length - 1].scrollIntoView();
 };
 
 var up = function() {
