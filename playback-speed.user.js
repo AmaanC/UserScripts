@@ -5,14 +5,19 @@
 // @version       1.0
 // ==/UserScript==
 
+var setToDefault = function() {
+    changeSpeedBy(0);
+};
+
 var init = function() {
+    var video = document.querySelector('video');
+
     console.log('Playback init');
     if (!localStorage.speed) {
         localStorage.speed = '1';
     }
-    document.body.addEventListener('load', function() {
-        changeSpeedBy(0);
-    });
+    document.body.addEventListener('load', setToDefault);
+    video.addEventListener('playing', setToDefault);
 };
 
 var changeSpeedBy = function(delta) {
