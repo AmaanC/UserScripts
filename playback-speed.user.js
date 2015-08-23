@@ -5,12 +5,25 @@
 // @version       1.0
 // ==/UserScript==
 
+var speedDisplayElem;
+var lastTimer, lastInnerTimer;
+
 var setToDefault = function() {
-    changeSpeedBy(0);
+    if (!window.resetSpeed) {
+        changeSpeedBy(0);
+    }
 };
 
 var init = function() {
     var video = document.querySelector('video');
+    speedDisplayElem = document.createElement('span');
+    speedDisplayElem.style.transition = 'opacity 500ms';
+    speedDisplayElem.style.position = 'fixed';
+    speedDisplayElem.style.right = '10px';
+    speedDisplayElem.style.top = '30px';
+    speedDisplayElem.style.display = 'none';
+    speedDisplayElem.style.zIndex = '99999999999';
+    document.body.appendChild(speedDisplayElem);
 
     console.log('Playback init');
     if (!localStorage.speed) {
@@ -21,6 +34,7 @@ var init = function() {
 };
 
 var changeSpeedBy = function(delta) {
+    window.resetSpeed = false;
     localStorage.speed = +(localStorage.speed) + delta;
     console.log('New speed:', localStorage.speed);
     var videoElem = document.querySelector('video');
@@ -30,6 +44,21 @@ var changeSpeedBy = function(delta) {
     else {
         console.error('No video element.');
     }
+
+    if (lastTimer) {
+        clearTimeout(lastTimer);
+        clearTimeout(lastInnerTimer);
+    }
+
+    speedDisplayElem.textContent = localStorage.speed;
+    speedDisplayElem.style.display = 'block';
+    speedDisplayElem.style.opacity = 1;
+    lastTimer = setTimeout(function() {
+        speedDisplayElem.style.opacity = 0;
+        lastInnerTimer = setTimeout(function() {
+            speedDisplayElem.style.display = 'none';
+        }, 500);
+    }, 500);
 };
 
 document.body.addEventListener('keydown', function (e) {
@@ -41,6 +70,11 @@ document.body.addEventListener('keydown', function (e) {
         else if(e.keyCode === 187) {
             // Increase speed
             changeSpeedBy(+0.25);
+        }
+        else if (e.keyCode == 48) {
+            console.log('Temporarily reset speed to 1.');
+            document.querySelector('video').playbackRate = 1;
+            window.resetSpeed = true;
         }
     }
 }, false);
