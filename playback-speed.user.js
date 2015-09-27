@@ -8,14 +8,18 @@
 var speedDisplayElem;
 var lastTimer, lastInnerTimer;
 
-var setToDefault = function() {
+var targetElem;
+
+var setToDefault = function(e) {
+    targetElem = e.target;
     if (!window.resetSpeed) {
         changeSpeedBy(0);
     }
 };
 
 var init = function() {
-    var video = document.querySelector('video');
+    targetElem = document.querySelector('video');
+
     speedDisplayElem = document.createElement('span');
     speedDisplayElem.style.transition = 'opacity 500ms';
     speedDisplayElem.style.position = 'fixed';
@@ -29,20 +33,19 @@ var init = function() {
     if (!localStorage.speed) {
         localStorage.speed = '1';
     }
-    document.body.addEventListener('load', setToDefault);
-    video.addEventListener('playing', setToDefault);
+    document.body.addEventListener('playing', setToDefault, true);
 };
 
 var changeSpeedBy = function(delta) {
     window.resetSpeed = false;
     localStorage.speed = +(localStorage.speed) + delta;
     console.log('New speed:', localStorage.speed);
-    var videoElem = document.querySelector('video');
-    if (videoElem) {
-        videoElem.playbackRate = localStorage.speed;
+
+    if (targetElem) {
+        targetElem.playbackRate = localStorage.speed;
     }
     else {
-        console.error('No video element.');
+        console.log('No video/audio element.');
     }
 
     if (lastTimer) {
@@ -73,7 +76,7 @@ document.body.addEventListener('keydown', function (e) {
         }
         else if (e.keyCode == 48) {
             console.log('Temporarily reset speed to 1.');
-            document.querySelector('video').playbackRate = 1;
+            targetElem.playbackRate = 1;
             window.resetSpeed = true;
         }
     }
