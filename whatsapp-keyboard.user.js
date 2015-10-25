@@ -19,11 +19,11 @@ var move = function(dir) {
     var current = document.querySelector('.active');
     var target;
     if (current && current.className.indexOf('chat') !== -1) {
-        var parent = current.parentElement;
+        var parent = current.parentElement.parentElement;
         var i = +parent.style.zIndex;
         var otherParent = findOther(parent.parentElement, i - dir);
         if (otherParent) {
-            target = otherParent.children[0];
+            target = otherParent.children[0].children[0];
             target.click();
             // target.scrollIntoView();
         }
