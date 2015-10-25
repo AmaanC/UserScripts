@@ -74,10 +74,16 @@ document.body.addEventListener('keydown', function (e) {
             // Increase speed
             changeSpeedBy(+0.25);
         }
-        else if (e.keyCode == 48) {
-            console.log('Temporarily reset speed to 1.');
-            targetElem.playbackRate = 1;
-            window.resetSpeed = true;
+        else if (e.keyCode === 48) {
+            if (window.resetSpeed !== true) {
+                console.log('Temporarily reset speed to 1.');
+                targetElem.playbackRate = 1;
+                window.resetSpeed = true;
+            }
+            else {
+                window.resetSpeed = false;
+                changeSpeedBy(0);
+            }
         }
     }
 }, false);
